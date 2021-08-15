@@ -6,14 +6,18 @@
             </template>
         </nav-bar>
 
+        <home-swiper :banners=banners></home-swiper>
+
     </div>
 </template>
 
 <script>
     import NavBar from 'components/common/navbar/NavBar'
+    import HomeSwiper from './childComps/HomeSwiper'
     import {
         getHomeMultidata
     } from 'network/home'
+
 
     export default {
         data() {
@@ -23,7 +27,8 @@
             }
         },
         components: {
-            NavBar
+            NavBar,
+            HomeSwiper
         },
         created() {
             getHomeMultidata().then(res => {
