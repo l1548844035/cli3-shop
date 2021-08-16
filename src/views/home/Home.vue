@@ -9,100 +9,96 @@
         <home-swiper :banners='banners'></home-swiper>
         <home-recommend :recommends='recommends'></home-recommend>
         <feature></feature>
-        <tab-control class="tab-control" :title="['流行','新款','精选']"></tab-control>
+        <tab-control class="tab-control" :title="['流行','新款','精选']" @tabClick="tabClick"></tab-control>
 
-        <ul>
-            <li>ll</li>
-            <li>ll</li>
-            <li>ll</li>
-            <li>ll</li>
-            <li>ll</li>
-            <li>ll</li>
-            <li>ll</li>
-            <li>ll</li>
-            <li>ll</li>
-            <li>ll</li>
-            <li>ll</li>
-            <li>ll</li>
-            <li>ll</li>
-            <li>ll</li>
-            <li>ll</li>
-            <li>ll</li>
-            <li>ll</li>
-            <li>ll</li>
-            <li>ll</li>
-            <li>ll</li>
-            <li>ll</li>
-            <li>ll</li>
-            <li>ll</li>
-            <li>ll</li>
-            <li>ll</li>
-            <li>ll</li>
-            <li>ll</li>
-            <li>ll</li>
-            <li>ll</li>
-            <li>ll</li>
-            <li>ll</li>
-            <li>ll</li>
-            <li>ll</li>
-            <li>ll</li>
-            <li>ll</li>
-            <li>ll</li>
-            <li>ll</li>
-            <li>ll</li>
-            <li>ll</li>
-            <li>ll</li>
-            <li>ll</li>
-            <li>ll</li>
-            <li>ll</li>
-            <li>ll</li>
-            <li>ll</li>
-            <li>ll</li>
-            <li>ll</li>
-            <li>ll</li>
-            <li>ll</li>
-            <li>ll</li>
-            <li>ll</li>
-            <li>ll</li>
-            <li>ll</li>
-            <li>ll</li>
-            <li>ll</li>
-            <li>ll</li>
-            <li>ll</li>
-        </ul>
+        <goods-list :goods="goods[currentType].list"></goods-list>
+
+
     </div>
 </template>
 
 <script>
     import NavBar from 'components/common/navbar/NavBar'
-    import TabControl from 'components/content/TabControl'
+    import TabControl from 'components/content/tabControl/TabControl'
+    import GoodsList from 'components/content/goods/GoodsList'
 
     import HomeSwiper from './childComps/HomeSwiper'
     import HomeRecommend from './childComps/HomeRecommend'
     import Feature from './childComps/Feature'
     import {
-        getHomeMultidata
+        getHomeMultidata,
+        getHomeGoods
     } from 'network/home'
 
     export default {
         data() {
             return {
                 banners: [],
-                recommends: []
+                recommends: [],
+                goods: {
+                    'pop': {
+                        page: 0,
+                        list: []
+                    },
+                    'new': {
+                        page: 0,
+                        list: []
+                    },
+                    'sell': {
+                        page: 0,
+                        list: []
+                    }
+                },
+                currentType: 'pop'
             }
         },
         components: {
             NavBar,
             TabControl,
+            GoodsList,
             HomeSwiper,
             HomeRecommend,
             Feature
         },
         created() {
-            getHomeMultidata().then(res => {
-                this.banners = res.data.banner.list,
-                    this.recommends = res.data.recommend.list
-            })
+            //请求首页多个数据
+            this.getHomeMutidata()
+            //请求商品数据
+            this.getHomeGoods('pop')
+            this.getHomeGoods('new')
+            this.getHomeGoods('sell')
+        },
+        methods: {
+            //事件监听方法
+            tabClick(index) {
+                switch (index) {
+                    case 0:
+                        this.currentType = 'pop'
+                        break;
+                    case 1:
+                        this.currentType = 'new'
+                        break;
+                    case 2:
+                        this.currentType = 'sell'
+                        break;
+                }
+            },
+
+            //网络请求相关方法
+            getHomeMutidata() {
+                getHomeMultidata().then(res => {
+                    this.banners = res.data.banner.list,
+                        this.recommends = res.data.recommend.list
+                })
+            },
+            //请求商品数据
+            getHomeGoods(type) {
+                const page = this.goods[type].page + 1
+                getHomeGoods(type, page).then(res => {
+                    this.goods[type].list.push(...res.data.list)
+                    this.goods[type].page += 1
+                })
+            }
         }
     }
 </script>
