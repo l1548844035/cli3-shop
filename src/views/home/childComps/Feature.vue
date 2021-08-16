@@ -1,0 +1,21 @@
+<template>
+    <div class="feature">
+        <a href="https://act.mogujie.com/zzlx67">
+            <img src="~img/home/feature_bg.jpg" alt="">
+        </a>
+    </div>
+</template>
+
+<script>
+    export default {
+        data() {
+            return {}
+        }
+    }
+</script>
+
+<style scoped>
+    .feature img {
+        width: 100%;
+    }
+</style>

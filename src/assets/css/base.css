@@ -1,1 +1,5 @@
 @import url('./normalize.css');
+body a{
+    text-decoration: none;
+    color: slategrey;
+}
