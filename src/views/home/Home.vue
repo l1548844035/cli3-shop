@@ -6,12 +6,14 @@
             </template>
         </nav-bar>
 
+        <!-- <scroll class="content"> -->
         <home-swiper :banners='banners'></home-swiper>
         <home-recommend :recommends='recommends'></home-recommend>
         <feature></feature>
         <tab-control class="tab-control" :title="['流行','新款','精选']" @tabClick="tabClick"></tab-control>
-
         <goods-list :goods="goods[currentType].list"></goods-list>
+        <!-- </scroll> -->
+
 
 
     </div>
@@ -21,6 +23,9 @@
     import NavBar from 'components/common/navbar/NavBar'
     import TabControl from 'components/content/tabControl/TabControl'
     import GoodsList from 'components/content/goods/GoodsList'
+    import Scroll from 'components/common/scroll/Scroll'
+
+
 
     import HomeSwiper from './childComps/HomeSwiper'
     import HomeRecommend from './childComps/HomeRecommend'
@@ -55,6 +60,7 @@
         components: {
             NavBar,
             TabControl,
+            Scroll,
             GoodsList,
             HomeSwiper,
             HomeRecommend,
@@ -84,6 +90,7 @@
                 }
             },
 
+
             //网络请求相关方法
             getHomeMutidata() {
                 getHomeMultidata().then(res => {
@@ -97,6 +104,8 @@
                 getHomeGoods(type, page).then(res => {
                     this.goods[type].list.push(...res.data.list)
                     this.goods[type].page += 1
+                    // this.$refs.scroll.finishPullUp()
+
                 })
             }
         }
@@ -106,6 +115,8 @@
 <style scoped>
     #home {
         padding-top: 44px;
+        /* position: relative; */
+
     }
 
     .home-bar {
@@ -116,11 +127,28 @@
         right: 0;
         top: 0;
         z-index: 9;
-        width: 100%;
+
     }
 
     .tab-control {
         position: sticky;
         top: 44px;
+        /* z-index: 9; */
     }
+
+    .content {
+        overflow: hidden;
+
+        position: absolute;
+        top: 44px;
+        bottom: 49px;
+        left: 0;
+        right: 0;
+    }
+
+    /* .content {
+        height: calc(100% - 93px);
+        overflow: hidden;
+        margin-top: 44px;
+    } */
 </style>
