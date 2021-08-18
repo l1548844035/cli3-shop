@@ -6,13 +6,13 @@
             </template>
         </nav-bar>
 
-        <!-- <scroll class="content"> -->
-        <home-swiper :banners='banners'></home-swiper>
-        <home-recommend :recommends='recommends'></home-recommend>
-        <feature></feature>
-        <tab-control class="tab-control" :title="['流行','新款','精选']" @tabClick="tabClick"></tab-control>
-        <goods-list :goods="goods[currentType].list"></goods-list>
-        <!-- </scroll> -->
+        <scroll class="content">
+            <home-swiper :banners='banners'></home-swiper>
+            <home-recommend :recommends='recommends'></home-recommend>
+            <feature></feature>
+            <tab-control class="tab-control" :title="['流行','新款','精选']" @tabClick="tabClick"></tab-control>
+            <goods-list :goods="goods[currentType].list"></goods-list>
+        </scroll>
 
 
 
@@ -138,7 +138,7 @@
 
     .content {
         overflow: hidden;
-
+        /* height: 100vh; */
         position: absolute;
         top: 44px;
         bottom: 49px;
