@@ -6,12 +6,17 @@
             </template>
         </nav-bar>
 
+        <tab-control v-show="isTabFixed" class="tab-control" ref="tabControl1" :title="['流行','新款','精选']"
+                     @tabClick="tabClick">
+        </tab-control>
+
         <scroll class="content" ref="scroll" :probe-type="3" :pull-up-load=true @scroll="contentScroll"
                 @pullingUp="loadMore">
-            <home-swiper :banners='banners'></home-swiper>
+            <home-swiper :banners='banners' @swiperImageLoad="swiperImageLoad"></home-swiper>
             <home-recommend :recommends='recommends'></home-recommend>
             <feature></feature>
-            <tab-control class="tab-control" :title="['流行','新款','精选']" @tabClick="tabClick"></tab-control>
+            <tab-control ref="tabControl2" :title="['流行','新款','精选']" @tabClick="tabClick">
+            </tab-control>
             <goods-list :goods="goods[currentType].list"></goods-list>
         </scroll>
 
@@ -60,7 +65,9 @@
                     }
                 },
                 currentType: 'pop',
-                isShowBackTop: false
+                isShowBackTop: false,
+                tabOffSetTop: 0,
+                isTabFixed: false
             }
         },
         components: {
@@ -81,8 +88,9 @@
             this.getHomeGoods('new')
             this.getHomeGoods('sell')
         },
+
         methods: {
-            //事件监听方法
+            //事件监听方法,监听点击了哪个选项
             tabClick(index) {
                 switch (index) {
                     case 0:
@@ -95,6 +103,8 @@
                         this.currentType = 'sell'
                         break;
                 }
+                this.$refs.tabControl1.currentIndex = index
+                this.$refs.tabControl2.currentIndex = index
             },
             backClick() {
                 //引用了scroll里面的额methods,scrollTo三个参数为x，y，动画时间
@@ -102,11 +112,18 @@
             },
             //监听滚动位置显示BackTop
             contentScroll(position) {
+                //是否显示返回顶部按钮
                 this.isShowBackTop = -position.y > 1000
+                //判断tab-control是否吸顶
+                this.isTabFixed = (-position.y) > this.tabOffSetTop
             },
             //上拉加载更多
             loadMore() {
                 this.getHomeGoods(this.currentType)
+            },
+            swiperImageLoad() {
+                this.tabOffSetTop = this.$refs.tabControl2.$el.offsetTop
+                // console.log(this.tabOffSetTop);
             },
 
             //网络请求相关方法
@@ -149,10 +166,10 @@
     }
 
     .tab-control {
-        position: sticky;
-        top: 44px;
-        /* z-index: 9; */
+        position: relative;
+        z-index: 9;
     }
+
 
     .content {
         overflow: hidden;
