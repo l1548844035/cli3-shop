@@ -64,10 +64,11 @@
                         list: []
                     }
                 },
-                currentType: 'pop',
-                isShowBackTop: false,
-                tabOffSetTop: 0,
-                isTabFixed: false
+                currentType: 'pop', //保存点击哪个tab
+                isShowBackTop: false, //保存是否显示返回顶部按钮状态
+                tabOffSetTop: 0, //记录tab-control是否吸顶的状态
+                isTabFixed: false,
+                saveY: 0,
             }
         },
         components: {
@@ -80,6 +81,17 @@
             HomeRecommend,
             Feature
         },
+        computed: {
+            activated() {
+                console.log('is activated');
+                this.$refs.scroll.scrollTo(0, this.saveY, 0)
+            },
+            deactivated() {
+                console.log('---');
+                this.saveY = -this.$refs.scroll.scroll.scroll.y
+                console.log(this.saveY);
+            }
+        },
         created() {
             //请求首页多个数据
             this.getHomeMutidata()
@@ -90,6 +102,7 @@
         },
 
         methods: {
+
             //事件监听方法,监听点击了哪个选项
             tabClick(index) {
                 switch (index) {

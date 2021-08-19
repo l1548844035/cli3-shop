@@ -46,6 +46,7 @@
             this.scroll.on('scroll', (position) => {
                 // console.log(position);
                 //传出自定义事件和位置position
+                // console.log(this.scroll.y);
                 this.$emit('scroll', position)
             })
             //监听上拉事件,需要添加pullUp插件以及使用
