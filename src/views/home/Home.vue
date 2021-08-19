@@ -6,7 +6,8 @@
             </template>
         </nav-bar>
 
-        <scroll class="content">
+        <scroll class="content" ref="scroll" :probe-type="3" :pull-up-load=true @scroll="contentScroll"
+                @pullingUp="loadMore">
             <home-swiper :banners='banners'></home-swiper>
             <home-recommend :recommends='recommends'></home-recommend>
             <feature></feature>
@@ -14,6 +15,7 @@
             <goods-list :goods="goods[currentType].list"></goods-list>
         </scroll>
 
+        <back-top @click.native="backClick" v-show="isShowBackTop"></back-top>
 
 
     </div>
@@ -24,7 +26,7 @@
     import TabControl from 'components/content/tabControl/TabControl'
     import GoodsList from 'components/content/goods/GoodsList'
     import Scroll from 'components/common/scroll/Scroll'
-
+    import BackTop from 'components/content/backTop/BackTop'
 
 
     import HomeSwiper from './childComps/HomeSwiper'
@@ -38,8 +40,11 @@
     export default {
         data() {
             return {
+                //保存轮播图数据
                 banners: [],
+                //保存每日推荐数据
                 recommends: [],
+                //保存商品数据
                 goods: {
                     'pop': {
                         page: 0,
@@ -54,13 +59,15 @@
                         list: []
                     }
                 },
-                currentType: 'pop'
+                currentType: 'pop',
+                isShowBackTop: false
             }
         },
         components: {
             NavBar,
             TabControl,
             Scroll,
+            BackTop,
             GoodsList,
             HomeSwiper,
             HomeRecommend,
@@ -89,7 +96,18 @@
                         break;
                 }
             },
-
+            backClick() {
+                //引用了scroll里面的额methods,scrollTo三个参数为x，y，动画时间
+                this.$refs.scroll.scrollTo(0, 0, 500)
+            },
+            //监听滚动位置显示BackTop
+            contentScroll(position) {
+                this.isShowBackTop = -position.y > 1000
+            },
+            //上拉加载更多
+            loadMore() {
+                this.getHomeGoods(this.currentType)
+            },
 
             //网络请求相关方法
             getHomeMutidata() {
@@ -104,7 +122,7 @@
                 getHomeGoods(type, page).then(res => {
                     this.goods[type].list.push(...res.data.list)
                     this.goods[type].page += 1
-                    // this.$refs.scroll.finishPullUp()
+                    this.$refs.scroll.finishPullUp()
 
                 })
             }
