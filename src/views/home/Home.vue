@@ -83,11 +83,9 @@
         },
         computed: {
             activated() {
-                console.log('is activated');
                 this.$refs.scroll.scrollTo(0, this.saveY, 0)
             },
             deactivated() {
-                console.log('---');
                 this.saveY = -this.$refs.scroll.scroll.scroll.y
                 console.log(this.saveY);
             }
