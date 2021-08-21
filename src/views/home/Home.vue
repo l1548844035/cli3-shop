@@ -118,7 +118,7 @@
                 this.$refs.tabControl2.currentIndex = index
             },
             backClick() {
-                //引用了scroll里面的额methods,scrollTo三个参数为x，y，动画时间
+                //引用了scroll里面的methods,scrollTo三个参数为x，y，动画时间
                 this.$refs.scroll.scrollTo(0, 0, 500)
             },
             //监听滚动位置显示BackTop
