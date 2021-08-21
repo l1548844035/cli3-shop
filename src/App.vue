@@ -1,7 +1,7 @@
 <template>
   <div>
     <router-view v-slot="{ Component }">
-      <keep-alive exclude='Detail'>
+      <keep-alive exclude='Detail,DetailBaseInfo'>
         <component :is="Component" />
       </keep-alive>
     </router-view>
