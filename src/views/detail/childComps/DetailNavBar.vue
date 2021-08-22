@@ -24,10 +24,13 @@
 <script>
     import NavBar from 'components/common/navbar/NavBar'
     export default {
+        props: {
+            currentIndex: 0,
+        },
         data() {
             return {
-                titles: ['商品', '参数', '评论', '推荐'],
-                currentIndex: 0
+                titles: ['商品', '参数', '评论', '推荐']
+
             }
         },
         components: {
@@ -36,6 +39,7 @@
         methods: {
             itemClick(index) {
                 this.currentIndex = index
+                this.$emit('navClick', index)
             },
             back() {
                 this.$router.back()

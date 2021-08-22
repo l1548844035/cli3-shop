@@ -13,7 +13,7 @@
     import ObserveImage from '@better-scroll/observe-image'
     import Pullup from '@better-scroll/pull-up'
     //使用插件，跟使用router类似
-    // BScroll.use(ObserveDom)
+    BScroll.use(ObserveDom)
     BScroll.use(ObserveImage)
     BScroll.use(Pullup)
     export default {
@@ -36,7 +36,7 @@
             //创建betterscroll对象
             this.scroll = new BScroll(this.$refs.wrapper, {
                 //开启插件
-                // observeDom: true,
+                observeDom: true,
                 observeImage: true,
                 click: true,
                 probeType: this.probeType,
