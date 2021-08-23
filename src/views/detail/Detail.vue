@@ -1,6 +1,7 @@
 <template>
     <div id="detail">
         <detail-nav-bar class="detail-nav" @navClick="navClick" :current-index="currentIndex"></detail-nav-bar>
+
         <scroll class="content" ref="scroll" @scroll="contentScroll" :probe-type="3">
             <detail-swiper :topImages="topImages"></detail-swiper>
             <detail-base-info :goods="goods"></detail-base-info>
@@ -10,7 +11,7 @@
             <detail-comment-info ref="comment" :comment-info="commentInfo"></detail-comment-info>
             <goods-list ref="recommends" :goods="recommends"></goods-list>
         </scroll>
-        <detail-bottom-bar @addToCart="addCart"></detail-bottom-bar>
+        <detail-bottom-bar @addToCart="addCart" class="bottom-bar"></detail-bottom-bar>
     </div>
 </template>
 
@@ -136,6 +137,7 @@
                 product.price = this.goods.realPrice;
                 // console.log(product);
                 //2.将商品添加入购物车
+                this.$store.dispatch('addToCart', product)
             }
         },
         mounted() {
@@ -155,8 +157,6 @@
         height: 100vh;
     }
 
-
-
     .detail-nav {
         position: relative;
         z-index: 9;
@@ -164,6 +164,12 @@
     }
 
     .content {
-        height: calc(100% - 44px);
+        overflow: hidden;
+        /* height: 100vh; */
+        position: absolute;
+        top: 44px;
+        bottom: 49px;
+        left: 0;
+        right: 0;
     }
 </style>

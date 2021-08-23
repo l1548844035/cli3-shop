@@ -1,13 +1,13 @@
 <template>
-  <div>
-    <router-view v-slot="{ Component }">
-      <keep-alive exclude='Detail,DetailBaseInfo'>
-        <component :is="Component" />
-      </keep-alive>
-    </router-view>
 
-    <main-tab-bar></main-tab-bar>
-  </div>
+  <router-view v-slot="{ Component }">
+    <keep-alive exclude='Detail,DetailBaseInfo'>
+      <component :is="Component" />
+    </keep-alive>
+  </router-view>
+
+  <main-tab-bar></main-tab-bar>
+
 
 </template>
 
