@@ -12,6 +12,7 @@
             <goods-list ref="recommends" :goods="recommends"></goods-list>
         </scroll>
         <detail-bottom-bar @addToCart="addCart" class="bottom-bar"></detail-bottom-bar>
+        <toast :show="show" :msg="msg"></toast>
     </div>
 </template>
 
@@ -27,6 +28,7 @@
 
     import Scroll from 'components/common/scroll/Scroll'
     import GoodsList from 'components/content/goods/GoodsList'
+    import Toast from 'components/common/toast/Toast'
     import {
         getDetail,
         getRecommend,
@@ -47,7 +49,9 @@
                 commentInfo: {},
                 recommends: [],
                 themeTopY: [],
-                currentIndex: 0
+                currentIndex: 0,
+                msg: '',
+                show: false
             }
         },
         components: {
@@ -61,6 +65,7 @@
             Scroll,
             GoodsList,
             DetailBottomBar,
+            Toast
         },
         created() {
             //获取iid
@@ -137,7 +142,14 @@
                 product.price = this.goods.realPrice;
                 // console.log(product);
                 //2.将商品添加入购物车
-                this.$store.dispatch('addToCart', product)
+                this.$store.dispatch('addToCart', product).then(res => {
+                    // console.log(res);
+                    this.show = true
+                    this.msg = res
+                    setTimeout(() => {
+                        this.show = false
+                    }, 1500);
+                })
             }
         },
         mounted() {
