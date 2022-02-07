@@ -26,6 +26,12 @@
                 type: Boolean,
                 default: true
             },
+            data: {
+                type: Array,
+                default: () => {
+                    return []
+                }
+            },
         },
         data() {
             return {

@@ -13,5 +13,12 @@ module.exports = {
         .set('views',resolve('./src/views'))
         .set('assets',resolve('./src/assets'))
         .set('network',resolve('./src/network'))
+    },
+    publicPath: './',
+    outputDir: 'dist',
+    assetsDir: 'static',
+    devServer:{
+        port:80,
+        // host:'139.155.247.207'
     }
 }

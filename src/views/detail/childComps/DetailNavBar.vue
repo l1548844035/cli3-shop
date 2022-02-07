@@ -1,14 +1,15 @@
 <template>
     <div>
-        <nav-bar>
+        <nav-bar id="top">
             <template #left>
                 <div class="back" @click="back">
-                    <img src="~img/common/back.svg" alt="">
+                    <img src="~img/common/houtui.png" alt="">
+
                 </div>
             </template>
             <template #center>
                 <div class="title">
-                    <div @click="itemClick(index)" class="title-item" v-for="(item,index) in titles"
+                    <div class="title-item" v-for="(item,index) in titles" :key="index"
                          :class="{active:index===currentIndex}">
                         <span>{{item}}</span>
                     </div>
@@ -25,7 +26,7 @@
     import NavBar from 'components/common/navbar/NavBar'
     export default {
         props: {
-            currentIndex: 0,
+            currentIndex: 0
         },
         data() {
             return {
@@ -38,6 +39,7 @@
         },
         methods: {
             itemClick(index) {
+                // console.log(this.currentIndex);
                 this.currentIndex = index
                 this.$emit('navClick', index)
             },
@@ -49,6 +51,10 @@
 </script>
 
 <style scoped>
+    #top {
+        background-color: darkgrey;
+    }
+
     .title {
         display: flex;
     }

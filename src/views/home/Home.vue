@@ -37,6 +37,7 @@
     import HomeSwiper from './childComps/HomeSwiper'
     import HomeRecommend from './childComps/HomeRecommend'
     import Feature from './childComps/Feature'
+
     import {
         getHomeMultidata,
         getHomeGoods
@@ -79,7 +80,8 @@
             GoodsList,
             HomeSwiper,
             HomeRecommend,
-            Feature
+            Feature,
+
         },
         computed: {
             activated() {
